@@ -1,0 +1,7 @@
+django
+opencv-python==4.5.1.48
+#opencv-python
+#opencv-python==4.4.0.46
+#opencv-python-headless
+numpy
+cmake
