@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+import cloudinary
+import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,10 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
+    'cloudinary_storage',
 
       #main
     'pages.apps.PagesConfig',
     'api',
+    #3rd part
+    'rest_framework',
+
+
 ]
 
 MIDDLEWARE = [
@@ -121,7 +129,62 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME':'iotneu',
+#     'API_KEY':'714813766688258',
+#     'API_SECRET':'CtSmrg9G_fiI2T_TD7MoYWnZDGQ',
+# }
+cloudinary.config( 
+  cloud_name = "iotneu", 
+  api_key = "714813766688258", 
+  api_secret = "CtSmrg9G_fiI2T_TD7MoYWnZDGQ" 
+)
+# CLOUDINARY = {
+#       'cloud_name': 'iotneu',  
+#       'api_key': '714813766688258',  
+#       'api_secret': 'CtSmrg9G_fiI2T_TD7MoYWnZDGQ',
+#     #   'api_proxy': 'http://proxy.server:3128'
+# }
+#DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+#SEG
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+###median
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+
+###########REST########################
+
+# Disable the Browsable HTML API
+DEFAULT_RENDERER_CLASSES = (
+    'rest_framework.renderers.JSONRenderer',
+)
+
+# Only enable the browseable HTML API in dev (DEBUG=True)
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + (
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+
+#heroku..
+#heroku
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')  
+
+import django_heroku #dont4get pp
+
+# Activate Django-Heroku.
+django_heroku.settings(locals()) 
