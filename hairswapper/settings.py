@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
-import cloudinary
-import cloudinary_storage
+# import cloudinary
+# import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloudinary',
-    'cloudinary_storage',
+    # 'cloudinary',
+    # 'cloudinary_storage',
 
       #main
     'pages.apps.PagesConfig',
@@ -134,11 +134,11 @@ STATIC_URL = 'static/'
 #     'API_KEY':'714813766688258',
 #     'API_SECRET':'CtSmrg9G_fiI2T_TD7MoYWnZDGQ',
 # }
-cloudinary.config( 
-  cloud_name = "iotneu", 
-  api_key = "714813766688258", 
-  api_secret = "CtSmrg9G_fiI2T_TD7MoYWnZDGQ" 
-)
+# cloudinary.config( 
+#   cloud_name = "iotneu", 
+#   api_key = "714813766688258", 
+#   api_secret = "CtSmrg9G_fiI2T_TD7MoYWnZDGQ" 
+# )
 # CLOUDINARY = {
 #       'cloud_name': 'iotneu',  
 #       'api_key': '714813766688258',  
