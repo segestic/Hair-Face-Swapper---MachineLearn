@@ -63,77 +63,77 @@ def upload_new(request, argv=None):
             return redirect('pages-index')
         #MLO
         in_image= Style.objects.get(id=input1)
-        print(in_image)
-        first_image = str(in_image)
-        print(in_image.uuid)
-        print(in_image.id)
         print(in_image.style)
-        # upload_data2 = default_storage.save('pic', input2)
-        # upload_dataB = "." + "/media/" + upload_data2
-        # cloud2 = storage.child("files/faceswap_images/"+ str(upload_data2)).put(upload_dataB)
-        # second_image = storage.child("files/faceswap_images/" + str(upload_data2)).get_url(None)
+        first_image = str(in_image.style)
+        # print(in_image.uuid)
+        # print(in_image.id)
+        # print(in_image.style)
+        upload_data2 = default_storage.save('pic', input2)
+        upload_dataB = "." + "/media/" + upload_data2
+        cloud2 = storage.child("files/faceswap_images/"+ str(upload_data2)).put(upload_dataB)
+        second_image = storage.child("files/faceswap_images/" + str(upload_data2)).get_url(None)
 
-        # ###########################################
-        # img1 = urllib.request.urlopen(str(in_image))
-        # img2 = urllib.request.urlopen(str(second_image))
-        # list_of_images = [img1, img2]
-        # #################
-        # try:
-        #     opts, args = getopt.getopt(argv, "hi:", ["ifile="])
-        # except getopt.GetoptError:
-        #     messages.error(request,"GetoptError")#exit_error()
-        #     return redirect('pages-index')
+        ###########################################
+        img1 = urllib.request.urlopen(str(in_image.style))
+        img2 = urllib.request.urlopen(str(second_image))
+        list_of_images = [img1, img2]
+        #################
+        try:
+            opts, args = getopt.getopt(argv, "hi:", ["ifile="])
+        except getopt.GetoptError:
+            messages.error(request,"GetoptError")#exit_error()
+            return redirect('pages-index')
 
-        # for opt, arg in opts:
-        #     if opt in ("-i", "--ifile"):
-        #         list_of_images.append(arg)
-        #     else:
-        #         messages.error(request,"Exit error")
-        #         return redirect('pages-index')
+        for opt, arg in opts:
+            if opt in ("-i", "--ifile"):
+                list_of_images.append(arg)
+            else:
+                messages.error(request,"Exit error")
+                return redirect('pages-index')
 
     
-        # if len(list_of_images) != expected_files:
-        #     messages.error(request,"Exit error")
-        #     return redirect('pages-index')
+        if len(list_of_images) != expected_files:
+            messages.error(request,"Exit error")
+            return redirect('pages-index')
 
-        # #decode image
-        # arrIMG1 = np.asarray(bytearray(img1.read()), dtype=np.uint8)#readImageasArray
-        # arrIMG2 = np.asarray(bytearray(img2.read()), dtype=np.uint8)
-        # image_1 = cv2.imdecode(arrIMG1, -1)#return it as it is
-        # image_2 = cv2.imdecode(arrIMG2, -1)
-        # #end decode image f
-        # landmarks_of_image1 = detect_landmarks(image_1)[0]
-        # landmarks_of_image2 = detect_landmarks(image_2)[0]
-        # convex_image1, convex_image2 = find_convex_hull(landmarks_of_image1, landmarks_of_image2, image_1, image_2)
-        # triangulation_image1 = find_delauney_triangulation(image_1, convex_image1)
-        # triangulation_image2 = find_delauney_triangulation(image_2, convex_image2)
-        # user_to_hairstyle1 = apply_affine_transformation(triangulation_image1, convex_image1, convex_image2, image_1, image_2)
-        # user_to_hairstyle2 = apply_affine_transformation(triangulation_image2, convex_image2, convex_image1, image_2, image_1)
-        # output_hairstyle_user = merge_mask_with_image(convex_image2, user_to_hairstyle1, image_2)
-        # output_user_hairstyle = merge_mask_with_image(convex_image1, user_to_hairstyle2, image_1)
-        # ##### GDAL
-        # #save to django model
-        # ret, buf = cv2.imencode('.jpg', user_to_hairstyle2) # cropped_image: cv2 / np array
-        # content = ContentFile(buf.tobytes())
-        # print ('level 2')
-        # img_model =  Customer()#images
-        # # img_model.save()  
-        # print ('level 3')
-        # #################final final------------
-        # upload_data3 = default_storage.save('output.jpg', content)
-        # upload_dataC = "." + "/media/" + upload_data3
-        # cloud3 = storage.child("files/faceswap_images/"+ str(upload_data3)).put(upload_dataC)
-        # third_image = storage.child("files/faceswap_images/" + str(upload_data3)).get_url(None)
-        # img_model.style = first_image
-        # img_model.pic = second_image
-        # img_model.merge = third_image
-        # img_model.save() #img_model.merge.save('output.jpg', third_image)
-        # #######
-        # my_dict = {
-        #     "name": 'user-name',
-        #     "output": img_model,
-        # }
-        # return render(request,'pages/index2.html',context=my_dict)        
+        #decode image
+        arrIMG1 = np.asarray(bytearray(img1.read()), dtype=np.uint8)#readImageasArray
+        arrIMG2 = np.asarray(bytearray(img2.read()), dtype=np.uint8)
+        image_1 = cv2.imdecode(arrIMG1, -1)#return it as it is
+        image_2 = cv2.imdecode(arrIMG2, -1)
+        #end decode image f
+        landmarks_of_image1 = detect_landmarks(image_1)[0]
+        landmarks_of_image2 = detect_landmarks(image_2)[0]
+        convex_image1, convex_image2 = find_convex_hull(landmarks_of_image1, landmarks_of_image2, image_1, image_2)
+        triangulation_image1 = find_delauney_triangulation(image_1, convex_image1)
+        triangulation_image2 = find_delauney_triangulation(image_2, convex_image2)
+        user_to_hairstyle1 = apply_affine_transformation(triangulation_image1, convex_image1, convex_image2, image_1, image_2)
+        user_to_hairstyle2 = apply_affine_transformation(triangulation_image2, convex_image2, convex_image1, image_2, image_1)
+        output_hairstyle_user = merge_mask_with_image(convex_image2, user_to_hairstyle1, image_2)
+        output_user_hairstyle = merge_mask_with_image(convex_image1, user_to_hairstyle2, image_1)
+        ##### GDAL
+        #save to django model
+        ret, buf = cv2.imencode('.jpg', user_to_hairstyle2) # cropped_image: cv2 / np array
+        content = ContentFile(buf.tobytes())
+        print ('level 2')
+        img_model =  Customer()#images
+        # img_model.save()  
+        print ('level 3')
+        #################final final------------
+        upload_data3 = default_storage.save('output.jpg', content)
+        upload_dataC = "." + "/media/" + upload_data3
+        cloud3 = storage.child("files/faceswap_images/"+ str(upload_data3)).put(upload_dataC)
+        third_image = storage.child("files/faceswap_images/" + str(upload_data3)).get_url(None)
+        img_model.style = first_image
+        img_model.pic = second_image
+        img_model.merge = third_image
+        img_model.save() #img_model.merge.save('output.jpg', third_image)
+        #######
+        my_dict = {
+            "name": 'user-name',
+            "output": img_model,
+        }
+        return render(request,'pages/outputurl.html',context=my_dict)        
     #MLO end
     return render(request,'pages/upload2.html',context=my_dict)     
 
