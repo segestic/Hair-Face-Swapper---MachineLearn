@@ -1,0 +1,23 @@
+
+{% extends "pages/partials/base.html" %}
+{% load static %}
+{% block content %}
+{% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}    
+<p>
+    <a class="btn btn-light" href="{% url 'style_list' %}">
+    Style Listing
+    </a>
+</p>
+    
+<table class="table">
+    <tr><td>Style Name</td><td>{{ object.name }}</td></tr>
+    <tr><td>Image</td><td><img class="img-thumbnail rounded-circle " width="240" height="200" src="{{ object.style }}" alt="Mergee face"></td></tr>
+	<tr><td>Date Created</td><td>{{ object.date_created }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit</a>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+
+{% extends "pages/partials/base.html" %}
+{% load static %}
+{% block content %}
+{% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}    
+<p>
+    <a class="btn btn-light" href="{% url 'style_list' %}">
+    Style Listing
+    </a>
+</p>
+    
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  
+  {{form.as_p}}
+   
+  <input type="submit" value="Save" class="btn btn-primary">
+</form>
+
+{% endblock %}

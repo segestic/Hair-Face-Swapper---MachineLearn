@@ -24,7 +24,7 @@ from components.landmark_detection import detect_landmarks
 from components.convex_hull import find_convex_hull
 from .serializers import ImageSerializer
 ####
-from django.conf import settings
+# from django.conf import settings
 from .throttling import CustomAnonRateThrottle, CustomUserRateThrottle
 # cloudinary = settings.CLOUDINARY_STORAGE
 # import cloudinary.uploader

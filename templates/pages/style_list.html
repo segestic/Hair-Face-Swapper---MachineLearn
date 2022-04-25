@@ -1,0 +1,67 @@
+{% extends 'pages/partials/base.html' %}
+{% block title %}Style Dashboard Page{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+{% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+<div class="row my-4">
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                Style List
+            </div>
+            
+    <div class="table-responsive">
+ 	<table class='table'>
+		<thead>
+          <tr>
+            <th>S/NO</th>
+            <th>STYLE NAME</th>
+			<th>PICTURE</th>
+            <th>UUID</th>
+            <th>CREATED</th>
+          </tr>
+        </thead>
+      {% for a in style %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td> <a href="{{a.get_absolute_url}}">{{a.name}}</a></td>
+            <td><img class="img-thumbnail rounded-circle " width="120" height="100" src="{{ a.style }}" alt="Mergee face"></td>
+			<td>{{a.uuid}}</td>
+			<td>{{a.date_created|date:"SHORT_DATE_FORMAT"}}</td>
+		</tr>	
+	{% endfor %}		
+</table>
+<div><a class="btn btn-primary float-right" href="{% url 'style_create' %}">Create a new Style</a></div>
+</div>
+
+
+<div>
+	{% if is_paginated %}
+		<nav aria-label="Page navigation conatiner"></nav>
+		<ul class="pagination justify-content-center">
+			{% if page_obj.has_previous %}
+			<li><a href="?page={{ page_obj.previous_page_number }}"class="page-link">&laquo; PREV</a></li>
+			{% endif %} 
+			{% if page_obj.has_next %}
+			<li><a href="?page={{ page_obj.next_page_number }}" class="page-link">NEXT&raquo;</a></li>
+			{% endif %}
+		</ul>
+		</div>
+		<p class="text-center"> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p> 
+		
+		
+	{% endif %}
+</div>
+
+</div>
+</div>
+</div>
+
+{% endblock %}

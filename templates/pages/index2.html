@@ -47,15 +47,58 @@ body {
 
 <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 
-{% for i in output %}
-<h1>Name - {{i.id}}</h1>
-<img class="img-thumbnail rounded-circle " width="250" height="250" src="{{ i.merge }}" alt="Mergee face">
-<br />
-<a href="{% url 'pages-index' %}">Go Back!!!</a>
-{% endfor %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        
+
+<div class="file-upload" id="file-upload1">
+  <div class="file-select">
+    <div class="file-select-button" id="fileName">Upload Style</div>
+    <div class="file-select-name" id="noFile1">No file chosen...</div> 
+    <input type="file" name="image1" id="chooseFile1" required>
+  </div>
+</div>
+<hr>
+<div class="file-upload" id="file-upload2">
+    <div class="file-select">
+      <div class="file-select-button" id="fileName2">Upload Profile Pic</div>
+      <div class="file-select-name" id="noFile2">No file chosen...</div> 
+      <input type="file" name="image2" id="chooseFile2" required>
+    </div>
+  </div>
+    <br>
+  <input class="btn btn-info" type="submit" value="Upload">
+</form>
+
+<!-- IGNORE -->
+<div class="copyright">
+  By <a href="#">seg</a>.
+</div>
 
 <script>
+$('#chooseFile1').bind('change', function () {
+  var filename = $("#chooseFile1").val();
+  if (/^\s*$/.test(filename)) {
+    $("#file-upload1").removeClass('active');
+    $("#noFile1").text("No file chosen..."); 
+  }
+  else {
+    $("#file-upload1").addClass('active');
+    $("#noFile1").text(filename.replace("C:\\fakepath\\", "")); 
+  }
+});
 
+$('#chooseFile2').bind('change', function () {
+  var filename = $("#chooseFile2").val();
+  if (/^\s*$/.test(filename)) {
+    $("#file-upload2").removeClass('active');
+    $("#noFile2").text("No file chosen..."); 
+  }
+  else {
+    $("#file-upload2").addClass('active');
+    $("#noFile2").text(filename.replace("C:\\fakepath\\", "")); 
+  }
+});
 </script>
 </body>
 </html>
