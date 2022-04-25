@@ -206,11 +206,11 @@ h2 {
                 <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
             {% endfor %}
         {% endif %}    
-        <p>
+        <!-- <p>
             <a class="btn btn-light" href="{% url 'style_list' %}">
                 Style Listing
             </a>
-        </p>
+        </p> -->
 
         <div class="d-none">
           {% for v in output %}
