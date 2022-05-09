@@ -573,19 +573,21 @@ from django.core.files.storage import default_storage
 import pyrebase
 import os
 import urllib
+from decouple import config
 
-config = {
-    "apiKey": "AIzaSyAFrdm_BG3qw9sWJhHqBEDh_7k1ZSzBizI",
-    "authDomain": "faceswap-d9f07.firebaseapp.com",
-    "projectId": "faceswap-d9f07",
-    "storageBucket": "faceswap-d9f07.appspot.com",
-    "messagingSenderId": "211027390522",
-    "appId": "1:211027390522:web:5b760a060095585c6f0503",
-    "measurementId": "G-Z393E4W8ZZ",
+
+configFire = {
+    "apiKey": config('apiKey'),
+    "authDomain": config('authDomain'),
+    "projectId": config('projectId'),
+    "storageBucket": config('storageBucket'),
+    "messagingSenderId": config('messagingSenderId'),
+    "appId": config('appId'),
+    "measurementId": config('measurementId'),
     "databaseURL": "",
 }
 
-firebase = pyrebase.initialize_app(config)
+firebase = pyrebase.initialize_app(configFire) 
 storage = firebase.storage()
 ############################
 

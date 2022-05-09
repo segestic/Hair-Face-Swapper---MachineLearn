@@ -23,12 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)l$gbd^y@1&si#2#aw*em(a@-xx-3_&$7*t82o9zjfl^%p0w^3'
+# SECRET_KEY = 'django-insecure-)l$gbd^y@1&si#2#aw*em(a@-xx-3_&$7*t82o9zjfl^%p0w^3'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = []
+# DEBUG = False
+DEBUG = config('DEBUG', default=False, cast=bool)
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 
 
 # Application definition
@@ -131,21 +133,11 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME':'iotneu',
-#     'API_KEY':'714813766688258',
-#     'API_SECRET':'CtSmrg9G_fiI2T_TD7MoYWnZDGQ',
+#     'CLOUD_NAME':config('CLOUD_NAME'),
+#     'API_KEY':config('API_KEY'),
+#     'API_SECRET':config('API_SECRET'),
 # }
-# cloudinary.config( 
-#   cloud_name = "iotneu", 
-#   api_key = "714813766688258", 
-#   api_secret = "CtSmrg9G_fiI2T_TD7MoYWnZDGQ" 
-# )
-# CLOUDINARY = {
-#       'cloud_name': 'iotneu',  
-#       'api_key': '714813766688258',  
-#       'api_secret': 'CtSmrg9G_fiI2T_TD7MoYWnZDGQ',
-#     #   'api_proxy': 'http://proxy.server:3128'
-# }
+
 #DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 #SEG
 
@@ -189,3 +181,10 @@ import django_heroku #dont4get pp
 
 # Activate Django-Heroku.
 django_heroku.settings(locals()) 
+
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+EMAIL_PORT = config('EMAIL_PORT', default=25, cast=int)
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=bool)
