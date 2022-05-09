@@ -162,10 +162,18 @@ DEFAULT_RENDERER_CLASSES = (
 )
 
 # Only enable the browseable HTML API in dev (DEBUG=True)
-if DEBUG:
-    DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + (
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    )
+
+if not DEBUG:
+    REST_FRAMEWORK = {
+        'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+        )
+    }
+
+# if DEBUG:
+#     DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + (
+#         'rest_framework.renderers.BrowsableAPIRenderer',
+#     )
 
 
 REST_FRAMEWORK = {
