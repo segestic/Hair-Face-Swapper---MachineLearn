@@ -1,0 +1,28 @@
+{% extends "pages/partials/base.html" %}
+
+{% block css %} 
+
+<style>
+#main {
+    height: 100vh;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}   
+
+
+
+<div class="d-flex justify-content-center align-items-center" id="main">
+    <h1 class="mr-3 pr-3 align-top border-right inline-block align-content-center">404</h1>
+    <div class="inline-block align-middle">
+    	<h2 class="font-weight-normal lead" id="desc">The page you requested was not found.</h2>
+    </div>
+</div>
+
+{% endblock %}
