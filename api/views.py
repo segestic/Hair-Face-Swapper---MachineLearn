@@ -40,6 +40,7 @@ from django.core.files.storage import default_storage
 from django.contrib import messages
 import pyrebase
 import os
+from decouple import config
 
 configFire = {
     "apiKey": config('apiKey'),
