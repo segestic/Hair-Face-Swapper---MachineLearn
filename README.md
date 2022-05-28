@@ -6,7 +6,7 @@ The first thing to do is to clone the repository:
 
 ```sh
 $ git clone https://github.com/segestic/Hair---MachineLearn.git
-$ cd test_project
+$ cd Hair---MachineLearn
 
 ```
 
