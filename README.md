@@ -5,7 +5,7 @@
 The first thing to do is to clone the repository:
 
 ```sh
-$ git clone https://github.com/segestic/Hair---MachineLearn.git
+$ git clone https://github.com/segestic/Hair-Face-Swapper---MachineLearn.git
 $ cd Hair---MachineLearn
 
 ```
