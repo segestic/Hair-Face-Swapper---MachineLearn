@@ -12,32 +12,16 @@ from components.affine_transformation import apply_affine_transformation
 from components.clone_mask import merge_mask_with_image
 from components.landmark_detection import detect_landmarks
 from components.convex_hull import find_convex_hull
-#MLO end
+import io
+from PIL import Image
+from .models import Customer, Style
+from django.core.files.base import ContentFile
+
 
 # Create your views here.
 def index(request):
     my_dict = {"insert_me": "I am from views.py"}
     return render(request,'pages/index.html',context=my_dict)
-
-
-# def upload(request):
-#     my_dict = {"insert_me": "I am from views"}
-#     return render(request,'pages/upload.html',context=my_dict)
-
-# if 'message_frm' in request.POST:
-########
-import io
-# from PIL import Image
-
-# im = Image.open('test.jpg')
-# im_resize = im.resize((500, 500))
-# buf = io.BytesIO()
-# im_resize.save(buf, format='JPEG')
-# byte_im = buf.getvalue()
-#######
-from PIL import Image
-from .models import Customer, Style
-from django.core.files.base import ContentFile
 
 
 
@@ -144,7 +128,7 @@ def upload(request, argv=None):
     my_dict = {"insert_me": "I am from views.py"}
 
     if request.method == 'POST':
-        input1 = request.FILES['image1']#.read()#.read() for Type-error-Can't convert object of type 'InMemoryUploadedFile' to 'str' for 'filename'
+        input1 = request.FILES['image1']
         if input1:
             print('Received1')
         input2 = request.FILES['image2']#.read()
@@ -182,43 +166,19 @@ def upload(request, argv=None):
             return redirect('pages-index')
         image_1 = img1
         image_2 = img2
-    ########################
-        # image1 = Image.open(images.style)
-        # cv2.imshow('mg',image1)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-        # image_1 = numpy.array(image1)
-        # image2 = Image.open(images.pic)
-        # image_2 = numpy.array(image2)
-    #####
         image_1 = cv2.imread(str(img1)) #modify here # cannot convert to str for filename
         image_2 = cv2.imread(str(img2)) #modify here # cannot convert to str for filename
-
-        # image_1 = cv2.imread(str(list_of_images[0])) #modify here # cannot convert to str for filename
-        # image_2 = cv2.imread(str(list_of_images[1])) #modify here # cannot convert to str for filename
-        
-        #image_2 = cv2.imread(list_of_images[1])#old
-
 
         #print (image_1)[0]
         landmarks_of_image1 = detect_landmarks(image_1)[0]
         landmarks_of_image2 = detect_landmarks(image_2)[0]
-
-
         convex_image1, convex_image2 = find_convex_hull(landmarks_of_image1, landmarks_of_image2, image_1, image_2)
-
-    
-
         triangulation_image1 = find_delauney_triangulation(image_1, convex_image1)
         triangulation_image2 = find_delauney_triangulation(image_2, convex_image2)
-
         user_to_hairstyle1 = apply_affine_transformation(triangulation_image1, convex_image1, convex_image2, image_1, image_2)
         user_to_hairstyle2 = apply_affine_transformation(triangulation_image2, convex_image2, convex_image1, image_2, image_1)
-
-
         output_hairstyle_user = merge_mask_with_image(convex_image2, user_to_hairstyle1, image_2)
         output_user_hairstyle = merge_mask_with_image(convex_image1, user_to_hairstyle2, image_1)
-
         
         ##### GDAL
         #save to django model
@@ -291,15 +251,8 @@ def upload_fl(request):
 			# return render_template('main.html', form=form)
         except MoreThanOneFaceException:#
             print("There seems to be more than one face in the image")
-			# flash("There seems to be more than one face in the images. There must be only one well defined face", "danger")
-			# return render_template('main.html', form=form)
-        # except Exception as e:
-            # print(e)
-			# flash("An Unknown Error has occured", "danger")
-	        # return render_template('main.html', form=form)
-        #print("Done Swapping")
 
-		#Give Back Image
+	#Give Back Image
         img_model = images
         #save to django model
         print ('level 1')
@@ -471,11 +424,6 @@ class StyleListView(generic.ListView):
     context_object_name = 'style'
     paginate_by = 7
 
-# class StyleCreateView(generic.CreateView):
-#     model = Style
-#     form_class = forms.StyleForm
-#     template_name = 'pages/style_create_form.html'
-
 def StyleCreateView(request):
     expected_files = 2
     my_dict = {"insert_me": "I am from views.py"}
@@ -550,14 +498,6 @@ def upload_cloud_new(request, argv=None):
         if not input1 or input2:
             pass# return redirect('appointment')
         #MLO
-        # images = Customer(style=input1, pic=input2)##############
-        
-        # images.save()  
-
-        # list_of_images = [images.style, images.pic]############
-        #final new
-        # first_image = str(images.style)
-        # second_image = str(images.pic)
         upload_data1 = default_storage.save('style', input1) #save2localcomp
         upload_dataA = "." + "/media/" + upload_data1
         cloud1 = storage.child("files/faceswap_images/" + str(upload_data1)).put(upload_dataA)#upload
